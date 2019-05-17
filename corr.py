@@ -14,10 +14,10 @@ STRIDE_2 = 2
 assert(STRIDE_2 <= NEIGHBORHOOD_SIZE)
 
 # Define two feature maps
-fmA = tf.ones((BATCH_SIZE, HEIGHT, WIDTH, CHANNELS), dtype=tf.int32)
-fmB = tf.convert_to_tensor(np.random.randint(5, size=(BATCH_SIZE, HEIGHT, WIDTH, CHANNELS)), dtype=tf.int32)
+fmA = tf.ones((BATCH_SIZE, HEIGHT, WIDTH, CHANNELS), dtype=tf.int32)    # 执行sess.run可以打印出张量
+fmB = tf.convert_to_tensor(np.random.randint(5, size=(BATCH_SIZE, HEIGHT, WIDTH, CHANNELS)), dtype=tf.int32)    # 和上一行等效，mp.random.randint:http://lagrange.univ-lyon1.fr/docs/numpy/1.11.0/reference/generated/numpy.random.randint.html,第一个参数指最大值
 
-depth = int(math.floor((2.0 * MAX_DISPLACEMENT + 1) / STRIDE_2) ** 2)
+depth = int(math.floor((2.0 * MAX_DISPLACEMENT + 1) / STRIDE_2) ** 2)    # math.floor()向下取整
 
 print 'Output should be size:', (BATCH_SIZE, HEIGHT, WIDTH, depth)
 print 'Striding at values: ', [e for e in range(-MAX_DISPLACEMENT + 1, MAX_DISPLACEMENT, STRIDE_2)]
@@ -36,9 +36,9 @@ def main():
             width_end_idx = width_start_idx + WIDTH
             cut = m[:, height_start_idx:height_end_idx, width_start_idx:width_end_idx, :]
 
-            final = tf.reduce_sum(cut, 3)
+            final = tf.reduce_sum(cut, 3)    # 按维度求和
             out.append(final)
-    corr = tf.stack(out, 3)
+    corr = tf.stack(out, 3)    # tf.stack张量拼接：https://www.jianshu.com/p/25706575f8d4
     print 'Output size: ', corr.shape
 
 main()
